@@ -3,7 +3,6 @@ module.exports.getCadastro = function(app, req, res){
 }
 
 module.exports.saveCadastro = function(app, req, res){
-    console.log(req)
 
     req.assert('nome', 'Nome não pode ser vazio').notEmpty();
     req.assert('usuario', 'Usuário não pode ser vazio').notEmpty();
@@ -12,6 +11,10 @@ module.exports.saveCadastro = function(app, req, res){
 
     var errors = req.validationErrors();
     var dadosForm = req.body;
+    var connection = app.config.dbConnection;
+    console.log(connection);
+    var usuarioDAO = new app.application.models.UsuarioDAO(connection);
+    usuarioDAO.saveCadastro(dadosForm);
 
     if(errors){
         res.render('cadastro', {validation : errors, dadosForm : dadosForm});
