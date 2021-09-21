@@ -15,5 +15,8 @@ module.exports.authentication = (app, req, res)=>{
         return;
     }
 
-    res.send('authentication method...');
+    var client = app.config.dbConnection;
+    var usuarioDAO = new app.application.models.UsuarioDAO(client);
+
+    usuarioDAO.authentication(bodydata, req, res);
 };

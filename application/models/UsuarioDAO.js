@@ -14,6 +14,32 @@ UsuarioDAO.prototype.saveCadastro = function(usuario){
     });
 };
 
+UsuarioDAO.prototype.authentication = function(bodydata, req, res){
+    var username = bodydata.usuario;
+    var password = bodydata.senha;
+
+    const usuarios = this._db.collection('usuarios');
+    usuarios.find({
+        "usuario": {$eq : username},
+        "senha": {$eq : password}
+    }).toArray(function(err, result){
+        if(err) throw err;
+
+        if(result[0] != undefined){
+            req.session.authorized = true;
+        }if(req.session.authorized){
+            req.session.nome = result.nome;
+            req.session.casa = result.casa;
+
+            res.redirect('jogo');
+        }else{
+            res.render('index', {validationErrors : {}});
+        }
+    });
+
+
+};
+
 module.exports = function(){
     return UsuarioDAO;
 };
