@@ -12,7 +12,6 @@ module.exports.saveCadastro = function(app, req, res){
     var errors = req.validationErrors();
     var dadosForm = req.body;
     var connection = app.config.dbConnection;
-    console.log(connection);
     var usuarioDAO = new app.application.models.UsuarioDAO(connection);
     usuarioDAO.saveCadastro(dadosForm);
 

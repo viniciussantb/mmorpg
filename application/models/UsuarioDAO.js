@@ -7,10 +7,9 @@ function UsuarioDAO(client){
 UsuarioDAO.prototype.saveCadastro = function(usuario){
     const usuarios = this._db.collection('usuarios');
 
-    usuarios.insert(usuario,(err, result) => {
+    usuarios.insertOne(usuario,(err, result) => {
         if(err) throw err;
-
-        console.log('Inserted into the collection usuarios.')
+        console.log(result + 'Inserted into the collection usuarios.');
         this._client.close();
     });
 };
