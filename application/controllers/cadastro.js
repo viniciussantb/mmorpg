@@ -14,12 +14,15 @@ module.exports.saveCadastro = function(app, req, res){
     
     var connection = app.config.dbConnection;
     var usuarioDAO = new app.application.models.UsuarioDAO(connection);
+    var jogoDAO = new app.application.models.JogoDAO(connection);
+
     usuarioDAO.saveCadastro(dadosForm);
+    jogoDAO.gerarParametros(dadosForm.usuario);
 
     if(errors){
         res.render('cadastro', {validation : errors, dadosForm : dadosForm});
         return;
     };
 
-    res.send(req.body);
+    res.redirect('/');
 };

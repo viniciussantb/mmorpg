@@ -10,7 +10,6 @@ UsuarioDAO.prototype.saveCadastro = function(usuario){
     usuarios.insertOne(usuario,(err, result) => {
         if(err) throw err;
         console.log(result + 'Inserted into the collection usuarios.');
-        this._client.close();
     });
 };
 
@@ -27,9 +26,10 @@ UsuarioDAO.prototype.authentication = function(bodydata, req, res){
 
         if(result[0] != undefined){
             req.session.authorized = true;
+            
         }if(req.session.authorized){
-            req.session.nome = result.nome;
-            req.session.casa = result.casa;
+            req.session.usuario = result[0].usuario;
+            req.session.casa = result[0].casa;
 
             res.redirect('jogo');
         }else{
