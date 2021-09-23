@@ -19,18 +19,18 @@ JogoDAO.prototype.gerarParametros = function(usuario){
     });
 };
 
-JogoDAO.prototype.iniciaJogo = function(usuario, casa, req, res){
+JogoDAO.prototype.iniciaJogo = function(usuario, casa, comando_invalido, req, res){
     this._collectionJogo.find({
         "usuario" : {$eq : usuario}
     }).toArray(function(err, result){
         if(err) throw err;
         
         res.render('jogo', {
-           casa: casa,
-            jogo: result[0]
+            casa: casa,
+            jogo: result[0],
+            comando_invalido : comando_invalido
         });
     });
-    //console.log(req.session);
 };
 
 module.exports = function(){

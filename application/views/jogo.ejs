@@ -21,6 +21,7 @@
 				})
 
 				$('#BTN_aldeoes').click(function(){
+					$('#comando_invalido').hide()
 					$.ajax({
 						url : '/suditos',
 						method : 'get',
@@ -31,6 +32,7 @@
 				});
 
 				$('#BTN_pergaminhos').click(function(){
+					$('#comando_invalido').hide()
 					$.ajax({
 						url : '/pergaminhos',
 						method : 'get',
@@ -55,6 +57,12 @@
 		</nav>
 
 	    <div class="container">
+
+			<% if(comando_invalido == "S"){ %>
+				<div class="alert alert-danger" id="comando_invalido">
+					<strong>Atenção! Verifique os campos de envio.</strong>
+				</div>
+			<% } %>
 	    	
 			<div class="row">
 	    		<div class="col-sm-3 casa">
