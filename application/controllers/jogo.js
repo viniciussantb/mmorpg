@@ -15,3 +15,11 @@ module.exports.sair = function(app, req, res){
         res.render('index', {validationErrors : {}});
     });
 };
+
+module.exports.suditos = function(app, req, res){
+    res.render('aldeoes');
+};
+
+module.exports.pergaminhos = function(app, req, res){
+    res.render('pergaminhos');
+};
