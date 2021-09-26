@@ -21,7 +21,7 @@
 				})
 
 				$('#BTN_aldeoes').click(function(){
-					$('#comando_invalido').hide()
+					$('#msg').hide()
 					$.ajax({
 						url : '/suditos',
 						method : 'get',
@@ -32,7 +32,7 @@
 				});
 
 				$('#BTN_pergaminhos').click(function(){
-					$('#comando_invalido').hide()
+					$('#msg').hide()
 					$.ajax({
 						url : '/pergaminhos',
 						method : 'get',
@@ -58,9 +58,15 @@
 
 	    <div class="container">
 
-			<% if(comando_invalido == "S"){ %>
-				<div class="alert alert-danger" id="comando_invalido">
+			<% if(msg == "A"){ %>
+				<div class="alert alert-danger" id="msg">
 					<strong>Atenção! Verifique os campos de envio.</strong>
+				</div>
+			<% } %>
+
+			<% if(msg == "B"){ %>
+				<div class="alert alert-info" id="msg">
+					<strong>Ação realizada com sucesso.</strong>
 				</div>
 			<% } %>
 	    	

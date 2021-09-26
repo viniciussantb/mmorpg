@@ -3,6 +3,7 @@ function JogoDAO(client){
     this._client.connect();
     this._db = this._client.db('got');
     this._collectionJogo = this._db.collection('jogo');
+    this._collectionAcao = this._db.collection('acao');
 };
 
 JogoDAO.prototype.gerarParametros = function(usuario){
@@ -19,7 +20,7 @@ JogoDAO.prototype.gerarParametros = function(usuario){
     });
 };
 
-JogoDAO.prototype.iniciaJogo = function(usuario, casa, comando_invalido, req, res){
+JogoDAO.prototype.iniciaJogo = function(usuario, casa, msg, req, res){
     this._collectionJogo.find({
         "usuario" : {$eq : usuario}
     }).toArray(function(err, result){
@@ -28,9 +29,13 @@ JogoDAO.prototype.iniciaJogo = function(usuario, casa, comando_invalido, req, re
         res.render('jogo', {
             casa: casa,
             jogo: result[0],
-            comando_invalido : comando_invalido
+            msg : msg
         });
     });
+};
+
+JogoDAO.prototype.acao = function(dadosForm){
+    this._collectionAcao.insertOne(dadosForm);
 };
 
 module.exports = function(){
