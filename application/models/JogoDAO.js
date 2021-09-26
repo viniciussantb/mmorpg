@@ -38,6 +38,15 @@ JogoDAO.prototype.acao = function(dadosForm){
     this._collectionAcao.insertOne(dadosForm);
 };
 
+JogoDAO.prototype.getPergaminhos = function(usuario, req, res){
+    this._collectionAcao.find({
+        usuario : usuario
+    }).toArray(function(err, result){
+        console.log(result);
+        res.render('pergaminhos', {pergaminhos : result});
+    });
+};
+
 module.exports = function(){
     return JogoDAO;
 };

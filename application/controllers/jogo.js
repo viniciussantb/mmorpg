@@ -24,6 +24,7 @@ module.exports.ordenar_acao_suditos = function(app, req, res){
     var client = app.config.dbConnection;
     var jogoDAO = new app.application.models.JogoDAO(client);
     var tempo = 0;
+    var nome_acao = '';
     var date = new Date();
 
     req.assert('acao', 'Ação deve ser informada').notEmpty();
@@ -37,15 +38,28 @@ module.exports.ordenar_acao_suditos = function(app, req, res){
     }
 
     switch(dadosForm.acao){
-        case '1': tempo = 1 * 60 * 60000;
-        case '2': tempo = 2 * 60 * 60000;
-        case '3': tempo = 5 * 60 * 60000;
-        case '4': tempo = 5 * 60 * 60000;
+        case '1': 
+            tempo = 1 * 60 * 60000;
+            nome_acao = 'aldeão(ões) coletando recursos';
+            break;
+        case '2': 
+            tempo = 2 * 60 * 60000;
+            nome_acao = 'enforcamento(s) programado(s)';
+            break;
+        case '3': 
+            tempo = 5 * 60 * 60000;
+            nome_acao = 'aldeão(ões) em treinamento de história';
+            break;
+        case '4': 
+            tempo = 5 * 60 * 60000;
+            nome_acao = 'aldeão(ões) em treinamento de magia';
+            break;
         default: console.log('default...');
     };
 
     dadosForm.usuario = req.session.usuario;
     dadosForm.tempo = tempo + date.getTime();
+    dadosForm.nome_acao = nome_acao;
 
     jogoDAO.acao(dadosForm);
 
@@ -74,5 +88,8 @@ module.exports.pergaminhos = function(app, req, res){
         return
     }
 
-    res.render('pergaminhos');
+    var client = app.config.dbConnection;
+    var jogoDAO = new app.application.models.JogoDAO(client);
+
+    jogoDAO.getPergaminhos(req.session.usuario, req, res);
 };
