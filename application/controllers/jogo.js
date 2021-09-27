@@ -75,8 +75,8 @@ module.exports.sair = function(app, req, res){
 
 module.exports.suditos = function(app, req, res){
     if(req.session.authorized !== true){
-        res.render('index', {validationErrors : {}});
-        return
+        res.send('session unauthorized... please login.')
+        return;
     }
 
     res.render('aldeoes');
@@ -84,8 +84,8 @@ module.exports.suditos = function(app, req, res){
 
 module.exports.pergaminhos = function(app, req, res){
     if(req.session.authorized !== true){
-        res.render('index', {validationErrors : {}});
-        return
+        res.send('session unauthorized... please login.')
+        return;
     }
 
     var client = app.config.dbConnection;
