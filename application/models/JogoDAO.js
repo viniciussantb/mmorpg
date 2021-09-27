@@ -39,10 +39,13 @@ JogoDAO.prototype.acao = function(dadosForm){
 };
 
 JogoDAO.prototype.getPergaminhos = function(usuario, req, res){
+    var date = new Date();
+    var momento_atual = date.getTime();
+
     this._collectionAcao.find({
-        usuario : usuario
+        usuario : usuario,
+        tempo : {$gt: momento_atual}
     }).toArray(function(err, result){
-        console.log(result);
         res.render('pergaminhos', {pergaminhos : result});
     });
 };
