@@ -16,7 +16,7 @@ module.exports.getJogo = function(app, req, res){
     var client = app.config.dbConnection;
     var jogoDAO = new app.application.models.JogoDAO(client);
 
-    jogoDAO.iniciaJogo(req.session.usuario, req.session.casa, msg,req, res);
+    jogoDAO.iniciaJogo(req.session.usuario, req.session.casa, msg, req, res);
 };
 
 module.exports.ordenar_acao_suditos = function(app, req, res){
@@ -24,6 +24,7 @@ module.exports.ordenar_acao_suditos = function(app, req, res){
     var client = app.config.dbConnection;
     var jogoDAO = new app.application.models.JogoDAO(client);
     var tempo = 0;
+    var gold = 0;
     var nome_acao = '';
     var date = new Date();
 
@@ -41,18 +42,22 @@ module.exports.ordenar_acao_suditos = function(app, req, res){
         case '1': 
             tempo = 1 * 60 * 60000;
             nome_acao = 'aldeão(ões) coletando recursos';
+            gold = -2;
             break;
         case '2': 
             tempo = 2 * 60 * 60000;
             nome_acao = 'enforcamento(s) programado(s)';
+            gold = -3;
             break;
         case '3': 
             tempo = 5 * 60 * 60000;
             nome_acao = 'aldeão(ões) em treinamento de história';
+            gold = -1;
             break;
         case '4': 
             tempo = 5 * 60 * 60000;
             nome_acao = 'aldeão(ões) em treinamento de magia';
+            gold = -1;
             break;
         default: console.log('default...');
     };
@@ -60,11 +65,9 @@ module.exports.ordenar_acao_suditos = function(app, req, res){
     dadosForm.usuario = req.session.usuario;
     dadosForm.tempo = tempo + date.getTime();
     dadosForm.nome_acao = nome_acao;
+    dadosForm.gold = gold;
 
-    jogoDAO.acao(dadosForm);
-
-    res.redirect('/jogo?msg=B');
-
+    jogoDAO.acao(dadosForm, req, res);
 };
 
 module.exports.sair = function(app, req, res){

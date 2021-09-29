@@ -1,3 +1,5 @@
+const { suditos } = require("../controllers/jogo");
+
 function JogoDAO(client){
     this._client = client;
     this._client.connect();
@@ -34,8 +36,34 @@ JogoDAO.prototype.iniciaJogo = function(usuario, casa, msg, req, res){
     });
 };
 
-JogoDAO.prototype.acao = function(dadosForm){
-    this._collectionAcao.insertOne(dadosForm);
+JogoDAO.prototype.acao = function(dadosForm, req, res){
+    var error = false;
+    this._collectionJogo.find({
+        usuario : dadosForm.usuario
+    }).toArray(function(err, result){
+        if(err) throw err;
+
+        console.log(result[0]);
+        if(result[0].suditos < dadosForm.quantidade){
+            error = true;
+            res.redirect('/jogo?msg=D');
+            return;
+        }else if(result[0].moedas < dadosForm.gold){
+            error = true;
+            res.redirect('/jogo?msg=E');
+            return;
+        }
+    });
+
+    if(!error){
+        this._collectionJogo.updateOne(
+            {usuario : dadosForm.usuario},
+            {$inc : {moedas: dadosForm.gold, suditos: (-dadosForm.quantidade)}}
+        )
+        this._collectionAcao.insertOne(dadosForm);
+        res.redirect('/jogo?msg=B');
+    };
+
 };
 
 JogoDAO.prototype.getPergaminhos = function(usuario, req, res){

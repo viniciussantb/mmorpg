@@ -52,7 +52,11 @@
 						var segundos = $(this).html();
 						var segundos_atuais = parseInt(segundos) - 1;
 
-						$(this).html(segundos_atuais);
+						if(segundos_atuais < 0){
+							window.location.href = 'jogo?msg=C';
+						}else{
+							$(this).html(segundos_atuais);
+						}
 
 					});
 					timerID = setTimeout('cronometro()', 1000);
@@ -83,6 +87,24 @@
 			<% if(msg == "B"){ %>
 				<div class="alert alert-info" id="msg">
 					<strong>Ação realizada com sucesso.</strong>
+				</div>
+			<% } %>
+
+			<% if(msg == "C"){ %>
+				<div class="alert alert-info" id="msg">
+					<strong>Ação terminada com sucesso.</strong>
+				</div>
+			<% } %>
+
+			<% if(msg == "D"){ %>
+				<div class="alert alert-danger" id="msg">
+					<strong>Quantidade de súditos insuficientes.</strong>
+				</div>
+			<% } %>
+
+			<% if(msg == "E"){ %>
+				<div class="alert alert-danger" id="msg">
+					<strong>Quantidade de moedas insuficientes.</strong>
 				</div>
 			<% } %>
 	    	
@@ -131,6 +153,7 @@
 				<div class="row">
 					<div class="col-sm-1">
 						<img src="images/outros/suditos.jpg" title="Aldeões" id="BTN_aldeoes" alt="Aldeões"/>
+						<span><%=jogo.suditos%></span>
 					</div>
 					
 					<div class="col-sm-1">
