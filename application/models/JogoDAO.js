@@ -4,6 +4,7 @@ function JogoDAO(client){
     this._client = client;
     this._client.connect();
     this._db = this._client.db('got');
+    this._ObjectId = require('mongodb').ObjectId;
     this._collectionJogo = this._db.collection('jogo');
     this._collectionAcao = this._db.collection('acao');
 };
@@ -77,6 +78,19 @@ JogoDAO.prototype.getPergaminhos = function(usuario, req, res){
         res.render('pergaminhos', {pergaminhos : result});
     });
 };
+
+JogoDAO.prototype.revogar_pergaminho = function(id_acao, req, res){
+    console.log(id_acao);
+    this._collectionAcao.deleteOne({
+        _id : this._ObjectId(id_acao)
+    }, function(err, obj){
+
+        if (err) throw err;
+        console.log("1 document deleted...");
+    });
+
+    res.redirect('/jogo?msg=F');
+}
 
 module.exports = function(){
     return JogoDAO;

@@ -1,10 +1,3 @@
-var authorization = function(app, req, res){
-    if(req.session.authorized !== true){
-        res.render('index', {validationErrors : {}});
-        return
-    }
-}
-
 module.exports.getJogo = function(app, req, res){
     if(req.session.authorized !== true){
         res.render('index', {validationErrors : {}});
@@ -96,3 +89,12 @@ module.exports.pergaminhos = function(app, req, res){
 
     jogoDAO.getPergaminhos(req.session.usuario, req, res);
 };
+
+module.exports.revogar_pergaminho = function(app, req, res){
+    var client = app.config.dbConnection;
+    var jogoDAO = new app.application.models.JogoDAO(client);
+
+    var id_acao = req.query.id_acao;
+
+    jogoDAO.revogar_pergaminho(id_acao, req, res);
+}

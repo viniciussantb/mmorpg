@@ -8,7 +8,7 @@
 			var momento_atual = date.getTime();
 			var segundos_restantes = Math.round((pergaminhos[i].tempo - momento_atual) / 1000)
 			%>
-			<li><%=pergaminhos[i].quantidade%> <%=pergaminhos[i].nome_acao%> - <small>restam <small class="segundos_restantes"><%=segundos_restantes%></small>  segundos - <a href="#">revogar ordem</a></small></li>
+			<li><%=pergaminhos[i].quantidade%> <%=pergaminhos[i].nome_acao%> - <small>restam <small class="segundos_restantes"><%=segundos_restantes%></small>  segundos - <a href="/revogar_pergaminho?id_acao=<%=pergaminhos[i]._id%>">revogar ordem</a></small></li>
 		<% } %>
 	</ul>
 </div>

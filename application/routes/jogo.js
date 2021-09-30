@@ -15,6 +15,10 @@ module.exports = function(app){
         app.application.controllers.jogo.pergaminhos(app, req, res);
     });
 
+    app.get('/revogar_pergaminho', (req, res)=>{
+        app.application.controllers.jogo.revogar_pergaminho(app, req, res);
+    });
+
     app.post('/ordenar_acao_suditos', (req, res)=>{
         app.application.controllers.jogo.ordenar_acao_suditos(app, req, res);
     });
