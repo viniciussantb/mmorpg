@@ -1,3 +1,5 @@
+var crypto = require('crypto');
+
 function UsuarioDAO(client){
     this._client = client;
     this._client.connect();
@@ -7,6 +9,8 @@ function UsuarioDAO(client){
 UsuarioDAO.prototype.saveCadastro = function(usuario){
     const usuarios = this._db.collection('usuarios');
 
+    usuario.senha = crypto.createHash("md5").update(usuario.senha).digest("hex");
+
     usuarios.insertOne(usuario,(err, result) => {
         if(err) throw err;
         console.log(result + 'Inserted into the collection usuarios.');
@@ -15,7 +19,7 @@ UsuarioDAO.prototype.saveCadastro = function(usuario){
 
 UsuarioDAO.prototype.authentication = function(bodydata, req, res){
     var username = bodydata.usuario;
-    var password = bodydata.senha;
+    var password = crypto.createHash("md5").update(bodydata.senha).digest("hex");;
 
     const usuarios = this._db.collection('usuarios');
     usuarios.find({
